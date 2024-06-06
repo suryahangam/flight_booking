@@ -1,0 +1,952 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="head-wrapper">
+    <!-- page header section -->
+    {% include 'header.html' %}
+    <!-- Search engine section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 mt-5">
+                    <h2 class="h4 text-center text-white mb-4">The best tour experience</h2>
+                    <h1 class="h1 text-center theme-text-white fw-bold theme-text-shadow mb-4">Find and book
+                        best <span class="theme-text-primary" id="changingword" style="">Seats</span></h1>
+                    <p class="font-small text-white text-center px-5 max-1">Find and Book best tour packages in
+                        very cheap price</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- search engine flight-->
+    <div class="flight-search aos-init aos-animate" data-aos="fade-up">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="theme-bg-white theme-border-radius p-2">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs border-0" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="oneway-tab" data-bs-toggle="tab"
+                                    data-bs-target="#oneway" type="button" role="tab" aria-controls="oneway"
+                                    aria-selected="true">
+                                    <span
+                                        class="d-inline-block icon-20 rounded-circle bg-white align-middle me-2"></span>One-way
+                                </button>
+                            </li>
+                            {% comment %} <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="return-tab" data-bs-toggle="tab"
+                                    data-bs-target="#return" type="button" role="tab" aria-controls="return"
+                                    aria-selected="false" tabindex="-1">
+                                    <span
+                                        class="d-inline-block icon-20 rounded-circle bg-white align-middle me-2"></span>Return
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="multiCity-tab" data-bs-toggle="tab"
+                                    data-bs-target="#multiCity" type="button" role="tab"
+                                    aria-controls="multiCity" aria-selected="false" tabindex="-1">
+                                    <span
+                                        class="d-inline-block icon-20 rounded-circle bg-white align-middle me-2"></span>Multi-city
+                                </button>
+                            </li> {% endcomment %}
+                        </ul>
+                        <!-- Tab content -->
+                        <div class="tab-content">
+                            <!-- oneway search -->
+                            <div id="oneway" class="tab-pane active" role="tabpanel"
+                                aria-labelledby="oneway-tab">
+                                <form action="{% url 'flight_list' %}" method="GET">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="search-pan row mx-0 theme-border-radius">
+                                            <div
+                                                class="col-12 col-lg-4 col-xl-2 ps-0 mb-2 mb-xl-0 pe-0 pe-lg-2">
+                                                <div class="form-group">
+                                                    <select class="form-control" name="origin" id="onewayOrigin" required>
+                                                        <option value="" style="margin-left: 4rem;">Origin</option>
+                                                        {% for a in data %}
+                                                        <option value="{{ a.code }}">{{ a.name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <button class="pos-swap"><i
+                                                            class="bi bi-arrow-left-right pl-1"></i></button>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="col-12 col-lg-4 col-xl-2 ps-0 mb-2 mb-xl-0 pe-0 pe-lg-2">
+                                                {% comment %} <i class="bi bi-geo-alt-fill position-absolute h2 icon-pos"></i> {% endcomment %}
+                                                <div class="form-group">
+                                                    
+                                                    <select class="form-control" name="destination" id="onewayDestination" required>
+                                                        <option value="">Destination</option>
+                                                        {% for a in data %}
+                                                        <option value="{{ a.code }}">{{ a.name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="col-12 col-lg-4 col-xl-3 ps-0 mb-2 mb-xl-0 pe-0 pe-lg-0 pe-xl-2">
+                                                <div class="form-control form-group d-flex">
+                                                    <i class="bi bi-calendar3 position-absolute h2 icon-pos"></i>
+                                                        <input type="date" class="cal-input hasDatepicker" name="flight_date" style="width: 16rem; margin-left: 2rem;" 
+                                                        placeholder="Depart Date" id="datepicker" required>
+                                                    {% comment %} <span class="dep-date-input">
+                                                        
+                                                    </span> {% endcomment %}
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="col-12 col-lg-6 col-xl-3 ps-0 mb-2 mb-lg-0 mb-xl-0 pe-0 pe-lg-2">
+                                                <div class="dropdown" id="myDD">
+                                                    <button class="dropdown-toggle form-control" type="button"
+                                                        id="travellerInfoOneway" data-bs-toggle="dropdown"
+                                                        aria-expanded="false">
+                                                        <i class="bi bi-person-lines-fill position-absolute h2 icon-pos"></i>
+                                                        <span class="text-truncate">0 Traveller(s)</span>
+                                                        <input type="hidden" name="total_travellers" value="0" id="total_travellers" required>
+                                                    </button>
+                                                    <span class="text-truncate" id="traveller_error" style="color: red;"></span>
+
+                                                    <div class="dropdown-menu"
+                                                        aria-labelledby="travellerInfoOneway">
+                                                        <ul class="drop-rest">
+                                                            <li>
+                                                                <div class="d-flex">Select Adults</div>
+                                                                <div
+                                                                    class="ms-auto input-group plus-minus-input">
+                                                                    <div class="input-group-button">
+                                                                        <button type="button" class="circle"
+                                                                            data-quantity="minus"
+                                                                            data-field="onewayAdult">
+                                                                            <i class="bi bi-dash"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                    <input class="input-group-field"
+                                                                        type="number" name="onewayAdult"
+                                                                        value="0">
+                                                                    <div class="input-group-button">
+                                                                        <button type="button" class="circle"
+                                                                            data-quantity="plus"
+                                                                            data-field="onewayAdult">
+                                                                            <i class="bi bi-plus"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="d-flex">Select Child</div>
+                                                                <div
+                                                                    class="ms-auto input-group plus-minus-input">
+                                                                    <div class="input-group-button">
+                                                                        <button type="button" class="circle"
+                                                                            data-quantity="minus"
+                                                                            data-field="onewayChild">
+                                                                            <i class="bi bi-dash"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                    <input class="input-group-field"
+                                                                        type="number" name="onewayChild"
+                                                                        value="0">
+                                                                    <div class="input-group-button">
+                                                                        <button type="button" class="circle"
+                                                                            data-quantity="plus"
+                                                                            data-field="onewayChild">
+                                                                            <i class="bi bi-plus"></i>  
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="d-flex">Select Infants</div>
+                                                                <div
+                                                                    class="ms-auto input-group plus-minus-input">
+                                                                    <div class="input-group-button">
+                                                                        <button type="button" class="circle"
+                                                                            data-quantity="minus"
+                                                                            data-field="onewayInfant">
+                                                                            <i class="bi bi-dash"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                    <input class="input-group-field"
+                                                                        type="number" name="onewayInfant"
+                                                                        value="0">
+                                                                    <div class="input-group-button">
+                                                                        <button type="button" class="circle"
+                                                                            data-quantity="plus"
+                                                                            data-field="onewayInfant">
+                                                                            <i class="bi bi-plus"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            {% comment %} <li>
+                                                                <label class="radio-inline">
+                                                                    <input type="radio" name="class"
+                                                                        value="Economy" class="me-2">Economy
+                                                                </label>
+                                                            </li>
+                                                            <li>
+                                                                <label class="radio-inline">
+                                                                    <input type="radio" name="class"
+                                                                        value="Special" class="me-2">Premium
+                                                                    Economy </label>
+                                                            </li>
+                                                            <li>
+                                                                <label class="radio-inline">
+                                                                    <input type="radio" name="class"
+                                                                        value="Business" class="me-2">Business
+                                                                </label>
+                                                            </li>
+                                                            <li>
+                                                                <label class="radio-inline">
+                                                                    <input type="radio" name="class"
+                                                                        value="First" class="me-2">First Class
+                                                                </label>
+                                                            </li> {% endcomment %}
+                                                            <li>
+                                                                <button type="button" class="btn btn"
+                                                                    onclick="">Done</button>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-6 col-xl-2 px-0">
+                                                <button type="submit" class="btn btn-search">
+                                                    <span class="fw-bold">Search</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mt-4">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-check-inline">
+                                                    <label class="check-wrap">Refundable Flights
+                                                        <input type="checkbox">
+                                                        <span class="checkmark"></span> </label>
+                                                </div>
+                                                <div class="form-check-inline">
+                                                    <label class="check-wrap"> Non Stop Flights
+                                                        <input type="checkbox">
+                                                        <span class="checkmark"></span> </label>
+                                                </div>
+                                                {% comment %} <div class="form-check-inline">
+                                                    <label class="check-wrap"> GDS Special Return
+                                                        <input type="checkbox">
+                                                        <span class="checkmark"></span> </label>
+                                                </div> {% endcomment %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                            <!-- Return search -->
+                            {% comment %} <div id="return" class="tab-pane fade" role="tabpanel" aria-labelledby="return-tab">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-12">
+                                        <div class="search-pan row mx-0 theme-border-radius">
+                                            <div
+                                                class="col-12 col-lg-4 col-xl-2 ps-0 mb-2 mb-xl-0 pe-0 pe-lg-2">
+                                                <div class="form-group">
+                                                    <i
+                                                        class="bi bi-geo-alt-fill position-absolute h2 icon-pos"></i>
+                                                    <input type="text" class="form-control ps-5"
+                                                        id="returnOrigin" placeholder="Origin">
+                                                    <button class="pos-swap"><i
+                                                            class="bi bi-arrow-left-right pl-1"></i></button>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="col-12 col-lg-4 col-xl-2 ps-0 mb-2 mb-xl-0 pe-0 pe-lg-2">
+                                                <div class="form-group">
+                                                    <i
+                                                        class="bi bi-geo-alt-fill position-absolute h2 icon-pos"></i>
+                                                    <input type="text" class="form-control ps-5"
+                                                        id="returnDestination" placeholder="Destination">
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="col-12 col-lg-4 col-xl-3 ps-0 mb-2 mb-xl-0 pe-0 pe-lg-0 pe-xl-2">
+                                                <div class="form-control form-group d-flex">
+                                                    <i
+                                                        class="bi bi-calendar3 position-absolute h2 icon-pos"></i>
+                                                    <span class="dep-date-input">
+                                                        <input type="text" class="cal-input hasDatepicker"
+                                                            placeholder="Depart Date" id="datepicker1">
+                                                    </span>
+                                                    <span class="arv-date-input ms-2">
+                                                        <input type="text" class="cal-input"
+                                                            placeholder="Return Date" id="datepickerNull">
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="col-12 col-lg-6 col-xl-3 ps-0 mb-2 mb-lg-0 mb-xl-0 pe-0 pe-lg-2">
+                                                <div class="dropdown" id="myDDReturn">
+                                                    <button class="dropdown-toggle form-control" type="button"
+                                                        id="travellerInfoReturn" data-bs-toggle="dropdown"
+                                                        aria-expanded="false">
+                                                        <i
+                                                            class="bi bi-person-lines-fill position-absolute h2 icon-pos"></i>
+                                                        <span class="text-truncate">1 Traveller(s), Economy
+                                                        </span>
+                                                    </button>
+                                                    <div class="dropdown-menu"
+                                                        aria-labelledby="travellerInfoReturn">
+                                                        <ul class="drop-rest">
+                                                            <li>
+                                                                <div class="d-flex">Select Adults</div>
+                                                                <div
+                                                                    class="ms-auto input-group plus-minus-input">
+                                                                    <div class="input-group-button">
+                                                                        <button type="button" class="circle"
+                                                                            data-quantity="minus"
+                                                                            data-field="onewayAdult">
+                                                                            <i class="bi bi-dash"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                    <input class="input-group-field"
+                                                                        type="number" name="onewayAdult"
+                                                                        value="0">
+                                                                    <div class="input-group-button">
+                                                                        <button type="button" class="circle"
+                                                                            data-quantity="plus"
+                                                                            data-field="onewayAdult">
+                                                                            <i class="bi bi-plus"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="d-flex">Select Child</div>
+                                                                <div
+                                                                    class="ms-auto input-group plus-minus-input">
+                                                                    <div class="input-group-button">
+                                                                        <button type="button" class="circle"
+                                                                            data-quantity="minus"
+                                                                            data-field="onewayChild">
+                                                                            <i class="bi bi-dash"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                    <input class="input-group-field"
+                                                                        type="number" name="onewayChild"
+                                                                        value="0">
+                                                                    <div class="input-group-button">
+                                                                        <button type="button" class="circle"
+                                                                            data-quantity="plus"
+                                                                            data-field="onewayChild">
+                                                                            <i class="bi bi-plus"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="d-flex">Select Infants</div>
+                                                                <div
+                                                                    class="ms-auto input-group plus-minus-input">
+                                                                    <div class="input-group-button">
+                                                                        <button type="button" class="circle"
+                                                                            data-quantity="minus"
+                                                                            data-field="onewayInfant">
+                                                                            <i class="bi bi-dash"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                    <input class="input-group-field"
+                                                                        type="number" name="onewayInfant"
+                                                                        value="0">
+                                                                    <div class="input-group-button">
+                                                                        <button type="button" class="circle"
+                                                                            data-quantity="plus"
+                                                                            data-field="onewayInfant">
+                                                                            <i class="bi bi-plus"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <label class="radio-inline">
+                                                                    <input type="radio" name="class"
+                                                                        value="Economy" class="me-2">Economy
+                                                                </label>
+                                                            </li>
+                                                            <li>
+                                                                <label class="radio-inline">
+                                                                    <input type="radio" name="class"
+                                                                        value="Special" class="me-2">Premium
+                                                                    Economy </label>
+                                                            </li>
+                                                            <li>
+                                                                <label class="radio-inline">
+                                                                    <input type="radio" name="class"
+                                                                        value="Business" class="me-2">Business
+                                                                </label>
+                                                            </li>
+                                                            <li>
+                                                                <label class="radio-inline">
+                                                                    <input type="radio" name="class"
+                                                                        value="First" class="me-2">First Class
+                                                                </label>
+                                                            </li>
+                                                            <li>
+                                                                <button type="button" class="btn btn"
+                                                                    onclick="">Done</button>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-6 col-xl-2 px-0">
+                                                <button type="submit" class="btn btn-search"
+                                                    onclick="window.location.href='flight-listing-round-trip.html';">
+                                                    <span class="fw-bold">Search</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> {% endcomment %}
+                            <!-- Multicity search -->
+                            {% comment %} <div id="multiCity" class="tab-pane fade" role="tabpanel"
+                                aria-labelledby="multiCity-tab">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-12">
+                                        <div class="search-pan row mx-0 theme-border-radius">
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    <div
+                                                        class="col-12 col-lg-6 col-xl-3 ps-0 mb-2 mb-xl-0 pe-0 pe-lg-2">
+                                                        <div class="form-group">
+                                                            <i
+                                                                class="bi bi-geo-alt-fill position-absolute h2 icon-pos"></i>
+                                                            <input type="text" class="form-control ps-5"
+                                                                id="multiOrigin" placeholder="Origin">
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="col-12 col-lg-6 col-xl-3 ps-0 mb-2 mb-xl-0 pe-0 pe-lg-0 pe-xl-2">
+                                                        <div class="form-group">
+                                                            <i
+                                                                class="bi bi-geo-alt-fill position-absolute h2 icon-pos"></i>
+                                                            <input type="text" class="form-control ps-5"
+                                                                id="multiDestination" placeholder="Destination">
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="col-12 col-lg-6 col-xl-2 ps-0 mb-2 mb-xl-0 pe-0 pe-lg-2 pe-xl-2">
+                                                        <div class="form-control form-group d-flex">
+                                                            <i
+                                                                class="bi bi-calendar3 position-absolute h2 icon-pos"></i>
+                                                            <span class="dep-date-input">
+                                                                <input type="text"
+                                                                    class="cal-input hasDatepicker"
+                                                                    placeholder="Depart Date" id="datepicker3">
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="col-12 col-lg-6 col-xl-4 ps-0 mb-2 mb-lg-0 mb-xl-0 pe-0 pe-lg-0 pe-xl-0">
+                                                        <div class="dropdown" id="myDDRound">
+                                                            <button class="dropdown-toggle form-control"
+                                                                type="button" id="travellerInfoMulti"
+                                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <i
+                                                                    class="bi bi-person-lines-fill position-absolute h2 icon-pos"></i>
+                                                                <span class="text-truncate">1 Traveller(s),
+                                                                    Economy
+                                                                </span>
+                                                            </button>
+                                                            <div class="dropdown-menu"
+                                                                aria-labelledby="travellerInfoMulti">
+                                                                <ul class="drop-rest">
+                                                                    <li>
+                                                                        <div class="d-flex">Select Adults</div>
+                                                                        <div
+                                                                            class="ms-auto input-group plus-minus-input">
+                                                                            <div class="input-group-button">
+                                                                                <button type="button"
+                                                                                    class="circle"
+                                                                                    data-quantity="minus"
+                                                                                    data-field="onewayAdult">
+                                                                                    <i class="bi bi-dash"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                            <input class="input-group-field"
+                                                                                type="number" name="onewayAdult"
+                                                                                value="0">
+                                                                            <div class="input-group-button">
+                                                                                <button type="button"
+                                                                                    class="circle"
+                                                                                    data-quantity="plus"
+                                                                                    data-field="onewayAdult">
+                                                                                    <i class="bi bi-plus"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                    <li>
+                                                                        <div class="d-flex">Select Child</div>
+                                                                        <div
+                                                                            class="ms-auto input-group plus-minus-input">
+                                                                            <div class="input-group-button">
+                                                                                <button type="button"
+                                                                                    class="circle"
+                                                                                    data-quantity="minus"
+                                                                                    data-field="onewayChild">
+                                                                                    <i class="bi bi-dash"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                            <input class="input-group-field"
+                                                                                type="number" name="onewayChild"
+                                                                                value="0">
+                                                                            <div class="input-group-button">
+                                                                                <button type="button"
+                                                                                    class="circle"
+                                                                                    data-quantity="plus"
+                                                                                    data-field="onewayChild">
+                                                                                    <i class="bi bi-plus"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                    <li>
+                                                                        <div class="d-flex">Select Infants</div>
+                                                                        <div
+                                                                            class="ms-auto input-group plus-minus-input">
+                                                                            <div class="input-group-button">
+                                                                                <button type="button"
+                                                                                    class="circle"
+                                                                                    data-quantity="minus"
+                                                                                    data-field="onewayInfant">
+                                                                                    <i class="bi bi-dash"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                            <input class="input-group-field"
+                                                                                type="number"
+                                                                                name="onewayInfant" value="0">
+                                                                            <div class="input-group-button">
+                                                                                <button type="button"
+                                                                                    class="circle"
+                                                                                    data-quantity="plus"
+                                                                                    data-field="onewayInfant">
+                                                                                    <i class="bi bi-plus"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                    <li>
+                                                                        <label class="radio-inline">
+                                                                            <input type="radio" name="class"
+                                                                                value="Economy"
+                                                                                class="me-2">Economy
+                                                                        </label>
+                                                                    </li>
+                                                                    <li>
+                                                                        <label class="radio-inline">
+                                                                            <input type="radio" name="class"
+                                                                                value="Special"
+                                                                                class="me-2">Premium
+                                                                            Economy </label>
+                                                                    </li>
+                                                                    <li>
+                                                                        <label class="radio-inline">
+                                                                            <input type="radio" name="class"
+                                                                                value="Business"
+                                                                                class="me-2">Business
+                                                                        </label>
+                                                                    </li>
+                                                                    <li>
+                                                                        <label class="radio-inline">
+                                                                            <input type="radio" name="class"
+                                                                                value="First" class="me-2">First
+                                                                            Class </label>
+                                                                    </li>
+                                                                    <li>
+                                                                        <button type="button" class="btn btn"
+                                                                            onclick="">Done</button>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-0 mt-md-0 mt-lg-0 mt-xl-2">
+                                                    <div
+                                                        class="col-12 col-lg-4 col-xl-3 ps-0 mb-2 mb-xl-0 pe-0 pe-lg-2">
+                                                        <div class="form-group">
+                                                            <i
+                                                                class="bi bi-geo-alt-fill position-absolute h2 icon-pos"></i>
+                                                            <input type="text" class="form-control ps-5"
+                                                                id="multiOrigin2" placeholder="Origin">
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="col-12 col-lg-4 col-xl-3 ps-0 mb-2 mb-xl-0 pe-0 pe-lg-2">
+                                                        <div class="form-group">
+                                                            <i
+                                                                class="bi bi-geo-alt-fill position-absolute h2 icon-pos"></i>
+                                                            <input type="text" class="form-control ps-5"
+                                                                id="multiDestination2"
+                                                                placeholder="Destination">
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="col-12 col-lg-4 col-xl-2 ps-0 mb-2 mb-xl-0 pe-0 pe-lg-0 pe-xl-2">
+                                                        <div class="form-control form-group d-flex">
+                                                            <i
+                                                                class="bi bi-calendar3 position-absolute h2 icon-pos"></i>
+                                                            <span class="dep-date-input">
+                                                                <input type="text"
+                                                                    class="cal-input hasDatepicker"
+                                                                    placeholder="Depart Date" id="datepicker4">
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-lg-12 col-xl-4 px-0">
+                                                        <div class="row">
+                                                            <div
+                                                                class="col-12 col-lg-6 col-xl-7 mb-2 mb-md-2 mb-lg-0 d-flex justify-content-center align-items-center">
+                                                                <button type="submit" class="btn btn-light"
+                                                                    id="add-button">
+                                                                    <span class="fw-bold">+ Add City</span>
+                                                                </button>
+                                                                <button type="submit" class="btn"
+                                                                    id="remove-button"> <span
+                                                                        class="fw-bold">Close</span> </button>
+                                                            </div>
+                                                            <div class="col-12 col-lg-6 col-xl-5">
+                                                                <button type="submit" class="btn btn-search"
+                                                                    onclick="window.location.href='flight-listing-multicity.html';">
+                                                                    <span class="fw-bold">Search</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> {% endcomment %}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+<!-- body section -->
+<div class="content-section">
+    <!-- Promotion banner section -->
+    <section class="promo-ban py-5" id="specialsDeals">
+        <div class="container">
+            <div class="row my-5 aos-init aos-animate" data-aos="fade-up">
+                <div class="col-12">
+                    <h2 class="h3 text-center theme-text-secondary fw-bold mb-3">Flight World Specials Deals
+                    </h2>
+                    <p class="text-center theme-text-accent-two mb-0">Get the best deals on selected flights
+                    </p>
+                </div>
+            </div>
+            <!-- promotional Slider -->
+            {% comment %} <div class="row">
+                <div class="col-12 aos-init aos-animate" data-aos="fade-down">
+                    <div class="owl-carousel owl-theme owl-loaded owl-drag" id="carouselPromo">
+
+
+
+
+
+                        <div class="owl-stage-outer">
+                            <div class="owl-stage"
+                                style="transform: translate3d(-951px, 0px, 0px); transition: all 0.25s ease 0s; width: 3091px;">
+                                <div class="owl-item cloned" style="width: 222.75px; margin-right: 15px;">
+                                    <div class="item">
+                                        <span class="position-absolute px-3 py-3">
+                                            <img src={% static 'styles/assets/images/icons/airasia.jpeg' %} class="rounded-circle"
+                                                alt="airline-logo-airasia" title="airline-logo-airasia">
+                                        </span>
+                                        <a href="#" class="d-block promo">
+                                            <img src={% static 'styles/assets/images/promotional/flihgt-offer02.png' %} class="img-fluid" alt="banner">
+                                            <div class="w-100">
+                                                <p class="font-small text-center promo-hover">Pre Book Sale off
+                                                    40%</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="owl-item cloned" style="width: 222.75px; margin-right: 15px;">
+                                    <div class="item">
+                                        <span class="position-absolute px-3 py-3">
+                                            <img src={% static 'styles/assets/images/icons/spicejet.jpeg' %} class="rounded-circle"
+                                                alt="airline-logo-spicejet" title="airline-logo-spicejet">
+                                        </span>
+                                        <a href="#" class="d-block promo">
+                                            <img src={% static 'styles/assets/images/promotional/flihgt-offer03.png' %}
+                                                class="img-fluid" alt="banner">
+                                            <div class="w-100">
+                                                <p class="font-small text-center promo-hover">Book a deal in
+                                                    selected flight
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="owl-item cloned" style="width: 222.75px; margin-right: 15px;">
+                                    <div class="item">
+                                        <span class="position-absolute px-3 py-3">
+                                            <img src={% static 'styles/assets/images/icons/vistara.jpeg' %} class="rounded-circle"
+                                                alt="airline-logo-vistara" title="airline-logo-vistara">
+                                        </span>
+                                        <a href="#" class="d-block promo">
+                                            <img src={% static 'styles/assets/images/promotional/flihgt-offer04.png' %}
+                                                class="img-fluid" alt="banner">
+                                            <div class="w-100">
+                                                <p class="font-small text-center promo-hover">Fresh Sale! Fares
+                                                    starting at
+                                                    $30</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="owl-item cloned" style="width: 222.75px; margin-right: 15px;">
+                                    <div class="item">
+                                        <span class="position-absolute px-3 py-3">
+                                            <img src={% static 'styles/assets/images/icons/thaiAir.jpeg' %} class="rounded-circle"
+                                                alt="airline-logo" title="airline-logo">
+                                        </span>
+                                        <a href="#" class="d-block promo">
+                                            <img src={% static 'styles/assets/images/promotional/flihgt-offer05.png' %}
+                                                class="img-fluid" alt="banner">
+                                            <div class="w-100">
+                                                <p class="font-small text-center promo-hover">Flash Sale! upto
+                                                    25% off</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="owl-item active" style="width: 222.75px; margin-right: 15px;">
+                                    <div class="item">
+                                        <span class="position-absolute px-3 py-3">
+                                            <img src={% static 'styles/assets/images/icons/6E.jpeg' %} class="rounded-circle"
+                                                alt="airline-logo-6E" title="airline-logo-6E">
+                                        </span>
+                                        <a href="#" class="d-block promo">
+                                            <img src={% static 'styles/assets/images/promotional/flihgt-offer01.png' %}
+                                                class="img-fluid" alt="banner">
+                                            <div class="w-100">
+                                                <p class="font-small text-center promo-hover">Flash Sale! Fares
+                                                    starting at
+                                                    $89</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="owl-item active" style="width: 222.75px; margin-right: 15px;">
+                                    <div class="item">
+                                        <span class="position-absolute px-3 py-3">
+                                            <img src={% static 'styles/assets/images/icons/airasia.jpeg' %} class="rounded-circle"
+                                                alt="airline-logo-airasia" title="airline-logo-airasia">
+                                        </span>
+                                        <a href="#" class="d-block promo">
+                                            <img src={% static 'styles/assets/images/promotional/flihgt-offer02.png' %}
+                                                class="img-fluid" alt="banner">
+                                            <div class="w-100">
+                                                <p class="font-small text-center promo-hover">Pre Book Sale off
+                                                    40%</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="owl-item active" style="width: 222.75px; margin-right: 15px;">
+                                    <div class="item">
+                                        <span class="position-absolute px-3 py-3">
+                                            <img src={% static 'styles/assets/images/icons/spicejet.jpeg' %} class="rounded-circle"
+                                                alt="airline-logo-spicejet" title="airline-logo-spicejet">
+                                        </span>
+                                        <a href="#" class="d-block promo">
+                                            <img src={% static 'styles/assets/images/promotional/flihgt-offer03.png' %}
+                                                class="img-fluid" alt="banner">
+                                            <div class="w-100">
+                                                <p class="font-small text-center promo-hover">Book a deal in
+                                                    selected flight
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="owl-item active" style="width: 222.75px; margin-right: 15px;">
+                                    <div class="item">
+                                        <span class="position-absolute px-3 py-3">
+                                            <img src={% static 'styles/assets/images/icons/vistara.jpeg' %} class="rounded-circle"
+                                                alt="airline-logo-vistara" title="airline-logo-vistara">
+                                        </span>
+                                        <a href="#" class="d-block promo">
+                                            <img src={% static 'styles/assets/images/promotional/flihgt-offer04.png' %}
+                                                class="img-fluid" alt="banner">
+                                            <div class="w-100">
+                                                <p class="font-small text-center promo-hover">Fresh Sale! Fares
+                                                    starting at
+                                                    $30</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="owl-item" style="width: 222.75px; margin-right: 15px;">
+                                    <div class="item">
+                                        <span class="position-absolute px-3 py-3">
+                                            <img src={% static 'styles/assets/images/icons/thaiAir.jpeg' %} class="rounded-circle"
+                                                alt="airline-logo" title="airline-logo">
+                                        </span>
+                                        <a href="#" class="d-block promo">
+                                            <img src={% static 'styles/assets/images/promotional/flihgt-offer05.png' %}
+                                                class="img-fluid" alt="banner">
+                                            <div class="w-100">
+                                                <p class="font-small text-center promo-hover">Flash Sale! upto
+                                                    25% off</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="owl-item cloned" style="width: 222.75px; margin-right: 15px;">
+                                    <div class="item">
+                                        <span class="position-absolute px-3 py-3">
+                                            <img src={% static 'styles/assets/images/icons/6E.jpeg' %} class="rounded-circle"
+                                                alt="airline-logo-6E" title="airline-logo-6E">
+                                        </span>
+                                        <a href="#" class="d-block promo">
+                                            <img src={% static 'styles/assets/images/promotional/flihgt-offer01.png' %}
+                                                class="img-fluid" alt="banner">
+                                            <div class="w-100">
+                                                <p class="font-small text-center promo-hover">Flash Sale! Fares
+                                                    starting at
+                                                    $89</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="owl-item cloned" style="width: 222.75px; margin-right: 15px;">
+                                    <div class="item">
+                                        <span class="position-absolute px-3 py-3">
+                                            <img src={% static 'styles/assets/images/icons/airasia.jpg' %} class="rounded-circle"
+                                                alt="airline-logo-airasia" title="airline-logo-airasia">
+                                        </span>
+                                        <a href="#" class="d-block promo">
+                                            <img src={% static 'styles/assets/images/promotional/flihgt-offer02.png' %}
+                                                class="img-fluid" alt="banner">
+                                            <div class="w-100">
+                                                <p class="font-small text-center promo-hover">Pre Book Sale off
+                                                    40%</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="owl-item cloned" style="width: 222.75px; margin-right: 15px;">
+                                    <div class="item">
+                                        <span class="position-absolute px-3 py-3">
+                                            <img src={% static 'styles/assets/images/icons/spicejet.jpg' %} class="rounded-circle"
+                                                alt="airline-logo-spicejet" title="airline-logo-spicejet">
+                                        </span>
+                                        <a href="#" class="d-block promo">
+                                            <img src={% static 'styles/assets/images/promotional/flihgt-offer03.png' %}
+                                                class="img-fluid" alt="banner">
+                                            <div class="w-100">
+                                                <p class="font-small text-center promo-hover">Book a deal in
+                                                    selected flight
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="owl-item cloned" style="width: 222.75px; margin-right: 15px;">
+                                    <div class="item">
+                                        <span class="position-absolute px-3 py-3">
+                                            <img src={% static 'styles/assets/images/icons/vistara.jpg' %} class="rounded-circle"
+                                                alt="airline-logo-vistara" title="airline-logo-vistara">
+                                        </span>
+                                        <a href="#" class="d-block promo">
+                                            <img src={% static 'styles/assets/images/promotional/flihgt-offer04.png' %}
+                                                class="img-fluid" alt="banner">
+                                            <div class="w-100">
+                                                <p class="font-small text-center promo-hover">Fresh Sale! Fares
+                                                    starting at
+                                                    $30</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="owl-nav"><button type="button" role="presentation" class="owl-prev"><i
+                                    class="bi bi-arrow-left-short"></i></button><button type="button"
+                                role="presentation" class="owl-next"><i
+                                    class="bi bi-arrow-right-short"></i></button></div>
+                        <div class="owl-dots"><button role="button"
+                                class="owl-dot active"><span></span></button><button role="button"
+                                class="owl-dot"><span></span></button></div>
+                    </div>
+                </div>
+            </div> {% endcomment %}
+        </div>
+    </section>
+
+</div>
+
+
+
+{% endblock %}
+
+{% block script %}
+<script>
+$(document).ready(function() {
+    // Event listener for plus and minus buttons
+    $('.circle').click(function() {
+        var button = $(this);
+        var oldValue = button.closest('.input-group').find('input').val();
+        var newVal;
+
+        console.log("oldvalud:: " + oldValue);
+        // Check if plus or minus button was clicked
+        if (button.data('quantity') == 'plus') {
+            $('span[id="traveller_error"]').text("");
+            newVal = parseFloat(oldValue) + 1;
+        } else {
+            // Don't allow decrementing below zero
+            if (oldValue > 0) {
+                newVal = parseFloat(oldValue) - 1;
+            } else {
+                newVal = 0;
+            }
+        }
+
+        // Calculate total travellers
+        var totalTravellers = 0;
+        $('.input-group-field').each(function() {
+            totalTravellers += parseFloat($(this).val());
+        });
+
+        // Update button text
+        $('#travellerInfoOneway').find('span').text(totalTravellers + ' Traveller(s)');
+        $('input[name="total_travellers"]').val(totalTravellers);
+    });
+
+    $('form').submit(function(event) {
+        event.preventDefault();
+
+        var totalTravellers = parseFloat($('input[name="total_travellers"]').val());
+        if (totalTravellers < 1) {
+            $('span[id="traveller_error"]').text("Please select at least 1 traveller.");
+        }
+        else{
+            this.submit();
+        };
+    });
+});
+</script>
+{% endblock %}

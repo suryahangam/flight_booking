@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aircraft 1 Seating Plan</title>
+    <link rel="stylesheet" href="{% static 'styles/css/aircraft-seats.css' %}">
+</head>
+<body>
+    <div class="aircraft">
+        <div class="cockpit"></div>
+        <div class="fuselage">
+            <div class="row">
+                <span class="seat exit"></span>
+                <span class="seat economy"></span>
+                <span class="seat economy"></span>
+                <span class="seat economy"></span>
+                <span class="seat economy"></span>
+                <span class="seat exit"></span>
+            </div>
+            <!-- Repeat rows as per the actual configuration, adjusting classes for different seat types -->
+        </div>
+    </div>
+</body>
+</html>

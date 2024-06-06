@@ -1,0 +1,395 @@
+/*-- color style --*/
+/*-- font style --*/
+/*-- media query --*/
+.seatMapBox {
+  background: #ffffff;
+  border-radius: 30px;
+  min-height: auto;
+  margin-top: 65px;
+}
+
+.aircraftWrap {
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+
+.aircraftTopWing {
+  position: relative;
+  margin-left: 800px;
+  background: linear-gradient(#f5faff 35%, #f5faff 100%);
+  width: 590px;
+  height: 65px;
+  clear: both;
+  transform: skew(-45deg, 0deg);
+  -webkit-transform: skew(-45deg, 0deg);
+  -moz-transform: skew(-45deg, 0deg);
+  -o-transform: skew(-45deg, 0deg);
+  -ms-transform: skew(-45deg, 0deg);
+}
+
+.aircraftTopWing span {
+  position: absolute;
+  transform: skew(45deg, 0deg);
+  -webkit-transform: skew(45deg, 0deg);
+  -moz-transform: skew(45deg, 0deg);
+  -o-transform: skew(45deg, 0deg);
+  -ms-transform: skew(45deg, 0deg);
+  left: 45%;
+  top: 45%;
+}
+
+.aircraftBottomWing {
+  position: relative;
+  margin-left: 800px;
+  background: linear-gradient(#f5faff 35%, #f5faff 100%);
+  width: 590px;
+  height: 65px;
+  transform: skew(45deg, 0deg);
+  -moz-transform: skew(45deg, 0deg);
+  -webkit-transform: skew(45deg, 0deg);
+  -o-transform: skew(45deg, 0deg);
+  -ms-transform: skew(45deg, 0deg);
+}
+
+.aircraftBottomWing span {
+  position: absolute;
+  transform: skew(-45deg, 0deg);
+  -webkit-transform: skew(-45deg, 0deg);
+  -moz-transform: skew(-45deg, 0deg);
+  -o-transform: skew(-45deg, 0deg);
+  -ms-transform: skew(-45deg, 0deg);
+  left: 45%;
+  top: 45%;
+}
+
+.txt {
+  color: #002d5b;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.cockpit {
+  display: inline-flex;
+  vertical-align: top;
+  z-index: 0;
+  position: relative;
+}
+
+.cockpitHead {
+  display: flex;
+  height: 399px;
+  width: 1000px;
+  border-radius: 50%;
+  margin-right: -524px;
+  border: 1px solid #9f9f9f;
+}
+
+.cockpit .cockpitHead .front {
+  transform: rotateZ(-90deg);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  font-weight: 700;
+}
+
+.tail {
+  display: inline-flex;
+  vertical-align: top;
+  z-index: 0;
+}
+
+.tailBack {
+  display: flex;
+  height: 399px;
+  width: 1000px;
+  border-radius: 50%;
+  margin-left: -524px;
+  border: 1px solid #9f9f9f;
+}
+
+.floor {
+  display: inline-flex;
+  padding: 18px 0;
+  position: relative;
+  width: 100%;
+  margin-left: -8px;
+  z-index: 0;
+  background: #ffffff;
+  /*border-top-right-radius: 40px;
+     border-bottom-right-radius: 40px;
+  border-right: 1px solid #cccccc;*/
+  border-top: 1px solid #9f9f9f;
+  border-bottom: 1px solid #9f9f9f;
+  min-height: 399px;
+  min-width: 1800px;
+}
+
+.floor.domestic {
+  min-width: 1400px;
+}
+
+.seats {
+  display: inline-flex;
+  flex-direction: column;
+  position: relative;
+  margin: 0 20px 0 0px;
+  padding: 0;
+  vertical-align: middle;
+  list-style: none;
+  font-weight: 700;
+}
+
+.seats::before {
+  content: attr(data-line);
+  position: absolute;
+  left: 10px;
+  bottom: -18px;
+  font-size: 12px;
+}
+
+.seats li {
+  list-style: none;
+  cursor: pointer;
+}
+
+.seat-list {
+  margin: 2px 0;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.seat-list.numRow {
+  transform: rotateZ(-90deg);
+}
+
+.seatLg {
+  background: url(../assets/images/icons/seatSpriteLg.svg) no-repeat;
+}
+
+.seatB {
+  width: 85px;
+  height: 45px;
+  background-size: 420%;
+}
+
+.seatB.assign {
+  background-position: 33% 0%;
+}
+
+.seatB.free {
+  background-position: 66% 0%;
+}
+
+.seatB.occupied {
+  background-position: 99% 0%;
+}
+
+.seat {
+  background: url(../assets/images/icons/seatSprite.svg) no-repeat;
+}
+
+.seatP {
+  width: 44px;
+  height: 44px;
+  background-size: 630%;
+}
+
+.seatP.assign {
+  background-position: 20% 0%;
+}
+
+.seatP.free {
+  background-position: 40% 0%;
+}
+
+.seatP.occupied {
+  background-position: 60% 0%;
+}
+
+.seatP.low {
+  background-position: 80% 0%;
+}
+
+.seatP.high {
+  background-position: 100% 0%;
+}
+
+.seatE {
+  width: 28px;
+  height: 28px;
+  background-size: 650%;
+}
+
+.seatE.assign {
+  background-position: 20% 0%;
+}
+
+.seatE.free {
+  background-position: 40% 0%;
+}
+
+.seatE.occupied {
+  background-position: 60% 0%;
+}
+
+.seatE.low {
+  background-position: 80% 0%;
+}
+
+.seatE.high {
+  background-position: 100% 0%;
+}
+
+.iconBox {
+  width: 72px;
+  height: 72px;
+  background: #efeeee;
+  border-radius: 6px;
+}
+
+.front-lavatory {
+  position: absolute;
+  bottom: 40%;
+  right: 50px;
+}
+
+.lavatoryIcon,
+.foodIcon {
+  font-size: 40px;
+  color: #002d5b;
+  transform: rotateZ(-90deg);
+  display: flex;
+}
+
+.facility-food-front {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+}
+
+.iconBox.facility-food-back {
+  height: 164px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.top-left-exists {
+  position: absolute;
+  left: -100px;
+  top: 24px;
+}
+
+.bottom-left-exists {
+  position: absolute;
+  left: -100px;
+  bottom: 20px;
+}
+
+.exitIconTop {
+  font-size: 14px;
+  color: red;
+  display: flex;
+  margin: 0px 0 0 5px;
+}
+
+.exitIconTop.iconBottom {
+  transform: rotateZ(180deg);
+  margin: 8px 6px 0 0px;
+}
+
+.exitTxt {
+  font-size: 12px;
+  color: red;
+  display: flex;
+  transform: rotateZ(-90deg);
+  margin: 9px 0px 0px 0px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.ml20 {
+  margin-left: 20px;
+}
+
+.ml-50 {
+  margin-left: -50px;
+}
+
+.align-start {
+  align-items: flex-start;
+}
+
+.align-end {
+  align-items: flex-end;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.hideSeat {
+  display: none;
+}
+
+.flex-direction-row {
+  flex-direction: row;
+}
+
+/*icons font css*/
+@font-face {
+  font-family: "icomoon-seatMap";
+  src: url("../fonts/seatMap/icomoon.eot?w4g5sz");
+  src: url("../fonts/seatMap/icomoon.eot?w4g5sz#iefix") format("embedded-opentype"), url("../fonts/seatMap/icomoon.ttf?w4g5sz") format("truetype"), url("../fonts/seatMap/icomoon.woff?w4g5sz") format("woff"), url("../fonts/seatMap/icomoon.svg?w4g5sz#icomoon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+[class^=icon-SeatM],
+[class*=" icon-SeatM"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: "icomoon-seatMap" !important;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-SeatM-seatE:before {
+  content: "\e900";
+  color: #2751bd;
+}
+
+.icon-SeatM-food:before {
+  content: "\e901";
+}
+
+.icon-SeatM-ladies:before {
+  content: "\e902";
+}
+
+.icon-SeatM-lavatory:before {
+  content: "\e903";
+}
+
+.icon-SeatM-exit:before {
+  content: "\e904";
+}
+
+.icon-SeatM-addSeat:before {
+  content: "\e905";
+}/*# sourceMappingURL=seats.css.map */
