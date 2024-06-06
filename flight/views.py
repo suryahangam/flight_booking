@@ -77,7 +77,7 @@ class FlightListView(ListView):
 
         context['origin'] = routes_dict.get(origin)
         context['destination'] = routes_dict.get(destination)
-        context['departure_date'] = datetime.strptime(self.request.GET.get('flight_date'), '%Y-%m-%d').strftime('%a, %d %b')
+        # context['departure_date'] = datetime.strptime(self.request.GET.get('flight_date'), '%Y-%m-%d').strftime('%a, %d %b')
         return context
     
 
@@ -128,8 +128,11 @@ class SeatSelectionView(View):
             # Get the booking details for the flight
             booking = Booking.objects.filter(
                 flight__flight_number=flight_number).first()
-            booking_details = booking.bookingdetail_set.all()
-            reserved_seats = [booking_detail.seat.seat_number for booking_detail in booking_details]
+            if booking:
+                booking_details = booking.bookingdetail_set.all()
+                reserved_seats = [booking_detail.seat.seat_number for booking_detail in booking_details]
+            else: 
+                reserved_seats = []
             
             # Get the haulted seats for the flight
             haulted_seats = list(SeatHold.objects.filter(
